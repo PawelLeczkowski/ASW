@@ -53,45 +53,45 @@ def make_bits(*numbers):
 
 # Sygnalizacja dla pieszych
 def set_pedestrians():
-    # Zolte dla wszystkich
-    send_bits(make_bits(1, 9, 17, 29, 33, 46))
-    sleep(3)
-
-    # Czerwone dla wszystkich
-    send_bits(make_bits(0, 8, 16, 30, 32, 47))
+    # Zolte dla wszystkich i czerwone dla pieszych
+    send_bits(make_bits(1, 9, 17, 29, 33, 46, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44))
     sleep(1)
 
-    # Zielone dla pieszych
+    # Zielone dla pieszych Czerwone dla wszystkich
     send_bits(make_bits(
-        5, 6, 13, 14, 21, 23,
-        25, 26, 37, 39, 42, 43
+        5, 6, 13, 14, 21, 23, 25, 26, 37, 39, 42, 43, 0, 8, 16, 30, 32, 47
     ))
     sleep(10)
-
-    # Czerwone dla pieszych
-    send_bits(make_bits(
-        4, 7, 12, 15, 20, 22,
-        24, 27, 36, 38, 41, 44
-    ))
-    sleep(1)
+    
+    # miganie
+    send_bits(make_bits(5, 6, 13, 14, 21, 23, 25, 26, 37, 39, 42, 43, 0, 8, 16, 30, 32, 47)) # zielone
+    sleep(0.5)
+    send_bits(make_bits(0, 8, 16, 30, 32, 47)) # wylaczone
+    sleep(0.5)
+    send_bits(make_bits(5, 6, 13, 14, 21, 23, 25, 26, 37, 39, 42, 43, 0, 8, 16, 30, 32, 47)) # zielone
+    sleep(0.5)
+    send_bits(make_bits(0, 8, 16, 30, 32, 47)) # wylaczone
+    sleep(0.5)
+    send_bits(make_bits(5, 6, 13, 14, 21, 23, 25, 26, 37, 39, 42, 43, 0, 8, 16, 30, 32, 47)) # zielone
+    sleep(0.5)
+    send_bits(make_bits(0, 8, 16, 30, 32, 47)) # wylaczone
+    sleep(0.5)
+    send_bits(make_bits(5, 6, 13, 14, 21, 23, 25, 26, 37, 39, 42, 43, 0, 8, 16, 30, 32, 47)) # zielone
 
     # Zolte i czerwone dla drogi glownej
-    send_bits(make_bits(0, 1, 8, 9))
+    send_bits(make_bits(0, 1, 8, 9, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 29, 30, 46, 47, 17, 16, 32, 33))
     sleep(1)
 
     # Zielone dla drogi glownej
-    send_bits(make_bits(2, 10))
+    send_bits(make_bits(2, 10, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 19, 35))
     sleep(1)
-
-    # Zielona strzalka dla drogi malej
-    send_bits(make_bits(19, 35))
 
 
 # Samochody na drodze glownej
 def set_cars_main():
     # Droga glowna: zielone
     # Droga mala: czerwone
-    send_bits(make_bits(2, 10, 16, 32))
+    send_bits(make_bits(2, 4, 7, 10, 12, 15, 16, 19, 20, 22, 24, 27, 30, 32, 35, 36, 38, 41, 44, 47))
 
     while True:
         # Przycisk 1 - zmiana kierunku ruchu
@@ -113,20 +113,31 @@ def set_cars_main():
 
 # Samochody na drodze podporzadkowanej
 def set_cars_small():
-    # Zolte dla drogi glownej
-    send_bits(make_bits(1, 9, 16, 32))
-    sleep(3)
+    # Zolte dla drogi glownej i czerwone dla pieszych
+    send_bits(make_bits(1, 9, 16, 32, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 30, 47))
+    sleep(1)
 
     # Czerwone dla glownej, czerwone dla malej
-    send_bits(make_bits(0, 8, 16, 32))
+    send_bits(make_bits(0, 8, 16, 32, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 17, 33, 30, 47))
     sleep(1)
 
-    # Zielone dla drogi malej
-    send_bits(make_bits(2, 10, 16, 32))
+    # Zielone dla drogi malej - tylko prosto
+    send_bits(make_bits(0, 3, 8, 11, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 34, 18, 47, 30))
+    sleep(10)
+    
+    send_bits(make_bits(0, 3, 8, 11, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 47, 30, 46, 29, 17, 33))
     sleep(1)
+    
+    # Zielone dla drogi malej - w lewo
+    send_bits(make_bits(0, 3, 8, 11, 16, 32, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 28, 45, 16, 32))
+    sleep(10)
+    
+    # zolte
+    send_bits(make_bits(0, 3, 8, 11, 16, 32, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44, 28, 45, 16, 32))
+    sleep(10)
 
     # Zielone dla glownej, czerwone dla malej
-    send_bits(make_bits(2, 10, 16, 32))
+    send_bits(make_bits(2, 10, 16, 32, 4, 7, 12, 15, 20, 22, 24, 27, 36, 38, 41, 44))
 
 try:
     while True:
